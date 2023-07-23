@@ -1,0 +1,36 @@
+
+以下コマンドでDjangoアプリ作る
+django-admin startproject aistock .
+
+
+Pycharmの実行構成にmanage.pyを指定してrunserverをパラメータにして実行する
+
+アプリを作る
+python manage.py startapp aistockapp
+
+
+aistockapp内のモデル、フォーム、urlなど修正する
+
+aistock/urls.pyに以下を追加する
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('aistockapp.urls'))
+]
+
+aistock/settings.pyに以下を追加する
+AUTH_USER_MODEL = 'aistockapp.User'
+LOGIN_REDIRECT_URL = 'aistockapp:top'
+LOGOUT_REDIRECT_URL = 'aistockapp:login'
+
+
+マイグレートする
+python manage.py makemigrations aistockapp
+python manage.py migrate
+
+
+ユーザー作る
+python manage.py createsuperuser
+
